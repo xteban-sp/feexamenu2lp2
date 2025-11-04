@@ -1,0 +1,71 @@
+<app-header></app-header>
+<div class="container">
+  <h1>Sanciones</h1>
+  <hr />
+  <button class="btn btn-success" (click)="abrirNuevo()">Nueva</button>
+  <table class="table table-hover mt-3">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Cliente</th>
+        <th>DNI</th>
+        <th>Tipo Sanción</th>
+        <th>Días</th>
+        <th class="text-end">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of sanciones; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ s.nombreCliente }}</td>
+        <td>{{ s.dniCliente }}</td>
+        <td>{{ s.tipoSancion }}</td>
+        <td>{{ s.nroDiasSancion }}</td>
+        <td class="text-end">
+          <button class="btn btn-sm btn-warning me-2" (click)="abrirEditar(s)">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(s.idSancion!)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div #modal class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ tituloModal }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+          <div class="mb-3">
+            <label class="form-label">Cliente *</label>
+            <select class="form-select" formControlName="idCliente">
+              <option [ngValue]="null">Seleccione un cliente</option>
+              <option *ngFor="let c of listaClientes" [ngValue]="c.idCliente">
+                {{ c.nombre }} ({{ c.dni }})
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tipo de Sanción *</label>
+            <input class="form-control" formControlName="tipoSancion" />
+            <div class="text-danger" *ngIf="form.controls.tipoSancion.touched && form.controls.tipoSancion.invalid">
+              Mínimo 3 caracteres
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nro. Días *</label>
+            <input type="number" class="form-control" formControlName="nroDiasSancion" min="1" />
+          </div>
+          <div class="text-end">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
