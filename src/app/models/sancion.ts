@@ -5,4 +5,5 @@ export class Sancion {
   dniCliente?: string;
   tipoSancion?: string;
   nroDiasSancion?: number;
+  estado?: string; // 👈 Añadido: "ACTIVO" | "INACTIVO"
 }
